@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package protocol;
+
+option java_package = "com.goatlerbon.aim.common.protocol";
+option java_outer_classname = "AIMResponseProto";
+
+message AIMResProtocol {
+  required int64 responseId = 2;
+  required string resMsg = 1;
+  required int32 type = 3;
+
+}

@@ -32,7 +32,7 @@ public class AIMServerApplication implements CommandLineRunner {
         String addr = InetAddress.getLocalHost().getHostAddress();
         Thread thread = new Thread(new RegistryZK(addr,appConfiguration.getAimServerPort(),port));
         thread.setName("registry-zk");
-        thread.start();
+//        thread.start();
     }
 
     public static void main(String[] args) {
