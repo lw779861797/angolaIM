@@ -10,10 +10,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.goatlerbon.aim.route.constant.Constant.ACCOUNT_PREFIX;
+import static com.goatlerbon.aim.route.constant.Constant.LOGIN_STATUS_PREFIX;
 
 @Service
 public class UserInfoCacheServiceImpl implements UserInfoCacheService {
 
+    /**
+     * todo 本地缓存，为了防止内存撑爆，后期可换为 LRU。
+     */
     private final static Map<Long,AIMUserInfo> USER_INFO_MAP = new ConcurrentHashMap<>(64);
 
     @Autowired
@@ -40,5 +44,10 @@ public class UserInfoCacheServiceImpl implements UserInfoCacheService {
             USER_INFO_MAP.put(userId,userInfo);
         }
         return userInfo;
+    }
+
+    @Override
+    public void removeLoginStatus(Long userId) {
+        redisTemplate.opsForSet().remove(LOGIN_STATUS_PREFIX,userId.toString()) ;
     }
 }

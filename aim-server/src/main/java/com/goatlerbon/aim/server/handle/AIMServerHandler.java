@@ -1,8 +1,12 @@
 package com.goatlerbon.aim.server.handle;
 
 import com.goatlerbon.aim.common.exception.AIMException;
+import com.goatlerbon.aim.common.kit.HeartBeatHandler;
+import com.goatlerbon.aim.common.pojo.AIMUserInfo;
 import com.goatlerbon.aim.common.protocol.AIMRequestProto;
 import com.goatlerbon.aim.common.util.NettyAttrUtil;
+import com.goatlerbon.aim.server.kit.RouteHandler;
+import com.goatlerbon.aim.server.kit.ServerHeartBeatHandlerImpl;
 import com.goatlerbon.aim.server.util.SessionSocketHolder;
 import com.goatlerbon.aim.server.util.SpringBeanFactory;
 import io.netty.channel.ChannelFutureListener;
@@ -26,7 +30,17 @@ public class AIMServerHandler extends SimpleChannelInboundHandler<AIMRequestProt
      */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        super.channelInactive(ctx);
+        //可能出现业务判断离线后再次触发 channelInactive
+        AIMUserInfo userInfo = SessionSocketHolder.getUserId((NioSocketChannel) ctx.channel());
+        if (userInfo != null){
+            LOGGER.warn("[{}] trigger channelInactive offline!",userInfo.getUserName());
+
+            //Clear route info and offline.
+            RouteHandler routeHandler = SpringBeanFactory.getBean(RouteHandler.class);
+            routeHandler.userOffLine(userInfo,(NioSocketChannel) ctx.channel());
+
+            ctx.channel().close();
+        }
     }
 
     /**
@@ -41,7 +55,10 @@ public class AIMServerHandler extends SimpleChannelInboundHandler<AIMRequestProt
         if(evt instanceof IdleStateEvent){
             IdleStateEvent event = (IdleStateEvent) evt;
             if(event.state() == IdleState.READER_IDLE){
-                LOGGER.info("定时检测客户端端是否存活");
+                LOGGER.info("定时检测客户端是否存活");
+
+                HeartBeatHandler heartBeatHandler = SpringBeanFactory.getBean(ServerHeartBeatHandlerImpl.class) ;
+                heartBeatHandler.process(ctx) ;
             }
         }
         super.userEventTriggered(ctx, evt);

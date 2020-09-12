@@ -41,7 +41,7 @@ public class RouteHandler {
     }
 
     /**
-     *清除路由关系
+     * 清除路由关系
      * @param userInfo
      */
     public void clearRouteInfo(AIMUserInfo userInfo) {
@@ -49,7 +49,7 @@ public class RouteHandler {
         Response response = null;
         ChatReqVo vo = new ChatReqVo(userInfo.getUserId(),userInfo.getUserName());
         try {
-            response = routeApi.offLine(vo);
+            response = (Response) routeApi.offLine(vo);
         } catch (Exception e){
             LOGGER.error("Exception",e);
         }finally {
