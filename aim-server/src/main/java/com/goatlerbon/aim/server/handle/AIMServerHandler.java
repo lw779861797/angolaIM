@@ -33,7 +33,7 @@ public class AIMServerHandler extends SimpleChannelInboundHandler<AIMRequestProt
     }
 
     /**
-     *	当前channel从远端读取到数据
+     *	当前channel从远端读取到数据触发
      * @param channelHandlerContext
      * @param msg
      * @throws Exception
