@@ -1,5 +1,6 @@
 package com.goatlerbon.aim.route.kit;
 
+import com.alibaba.fastjson.JSON;
 import com.goatlerbon.aim.route.cache.ServerCache;
 import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.ZkClient;
@@ -35,5 +36,15 @@ public class ZKit {
                 serverCache.updateCache(currentChildren);
             }
         });
+    }
+
+    /**
+     * 获得 ZK中所有的服务器结点
+     * @return
+     */
+    public List<String> getAllNode() {
+        List<String> children = zkClient.getChildren("/route");
+        logger.info("Query all node =[{}] success.", JSON.toJSONString(children));
+        return children;
     }
 }

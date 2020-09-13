@@ -1,21 +1,22 @@
-package com.goatlerbon.aim.route.api.vo.res;
+package com.goatlerbon.aim.common.pojo;
 
-import com.goatlerbon.aim.common.pojo.RouteInfo;
-
-import java.io.Serializable;
-
-public class AIMServerResVo implements Serializable {
+/**
+ * 路由信息
+ */
+public class RouteInfo {
 
     private String ip ;
+
 //    netty服务器端口
     private Integer aimServerPort;
+
 //    服务器端口
     private Integer httpPort;
 
-    public AIMServerResVo(RouteInfo routeInfo) {
-        this.ip = routeInfo.getIp();
-        this.aimServerPort = routeInfo.getAimServerPort();
-        this.httpPort = routeInfo.getHttpPort();
+    public RouteInfo(String ip, Integer aimServerPort, Integer httpPort) {
+        this.ip = ip;
+        this.aimServerPort = aimServerPort;
+        this.httpPort = httpPort;
     }
 
     public String getIp() {

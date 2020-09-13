@@ -1,5 +1,7 @@
 package com.goatlerbon.aim.route.service.Impl;
 
+import com.goatlerbon.aim.common.enums.StatusEnum;
+import com.goatlerbon.aim.route.api.vo.req.LoginReqVo;
 import com.goatlerbon.aim.route.api.vo.res.RegisterInfoResVo;
 import com.goatlerbon.aim.route.service.AccountService;
 import com.goatlerbon.aim.route.service.UserInfoCacheService;
@@ -45,5 +47,40 @@ public class AccountServiceRedisImpl implements AccountService {
             info.setUserName(info.getUserName());
         }
         return info;
+    }
+
+    @Override
+    public StatusEnum login(LoginReqVo loginReqVo) {
+        //再去Redis里查询
+        String key = ACCOUNT_PREFIX + loginReqVo.getUserId();
+        String userName = (String) redisTemplate.opsForValue().get(key);
+        if (null == userName) {
+            return StatusEnum.ACCOUNT_NOT_MATCH;
+        }
+
+        if (!userName.equals(loginReqVo.getUserName())) {
+            return StatusEnum.ACCOUNT_NOT_MATCH;
+        }
+
+
+        //登录成功，保存登录状态
+        boolean status = userInfoCacheService.saveAndCheckUserLoginStatus(loginReqVo.getUserId());
+        if (status == false) {
+            //重复登录
+            return StatusEnum.REPEAT_LOGIN;
+        }
+
+        return StatusEnum.SUCCESS;
+    }
+
+    /**
+     *
+     * @param loginReqVo
+     * @param msg 服务器IP
+     */
+    @Override
+    public void saveRouteInfo(LoginReqVo loginReqVo, String msg) {
+        String key = ROUTE_PREFIX + loginReqVo.getUserId();
+        redisTemplate.opsForValue().set(key, msg);
     }
 }

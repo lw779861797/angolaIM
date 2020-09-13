@@ -2,15 +2,20 @@ package com.goatlerbon.aim.route.controller;
 
 import com.goatlerbon.aim.common.enums.StatusEnum;
 import com.goatlerbon.aim.common.pojo.AIMUserInfo;
+import com.goatlerbon.aim.common.pojo.RouteInfo;
 import com.goatlerbon.aim.common.res.BaseResponse;
 import com.goatlerbon.aim.common.res.NULLBody;
+import com.goatlerbon.aim.common.route.algorithm.RouteHandle;
+import com.goatlerbon.aim.common.util.RouteInfoParseUtil;
 import com.goatlerbon.aim.route.api.RouteApi;
 import com.goatlerbon.aim.route.api.vo.req.ChatReqVo;
 import com.goatlerbon.aim.route.api.vo.req.LoginReqVo;
 import com.goatlerbon.aim.route.api.vo.req.RegisterInfoReqVo;
 import com.goatlerbon.aim.route.api.vo.res.AIMServerResVo;
 import com.goatlerbon.aim.route.api.vo.res.RegisterInfoResVo;
+import com.goatlerbon.aim.route.cache.ServerCache;
 import com.goatlerbon.aim.route.service.AccountService;
+import com.goatlerbon.aim.route.service.CommonBizService;
 import com.goatlerbon.aim.route.service.UserInfoCacheService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -31,10 +36,19 @@ public class RouteController implements RouteApi {
     private final static Logger LOGGER = LoggerFactory.getLogger(RouteController.class);
 
     @Autowired
+    private CommonBizService commonBizService ;
+
+    @Autowired
     private UserInfoCacheService userInfoCacheService ;
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private RouteHandle routeHandle;
+
+    @Autowired
+    private ServerCache serverCache;
 
     @ApiOperation("客户端下线")
     @RequestMapping(value = "offLine", method = RequestMethod.POST)
@@ -92,7 +106,34 @@ public class RouteController implements RouteApi {
     public BaseResponse<AIMServerResVo> login(@RequestBody LoginReqVo loginReqVo) throws Exception{
         BaseResponse<AIMServerResVo> response = new BaseResponse<>();
 
-//        String server =
+        // 使用loginReqVo.getUserId() 经过一致性hash算法
+        // 这个用户使用的服务器 是 用户ID hash 完 最近的下一个结点的服务器，每次都会访问相同的服务器
+        String server = routeHandle.routeServer(serverCache.getServerList(),String.valueOf(loginReqVo.getUserId()));
+        LOGGER.info("userName=[{}] route server info=[{}]", loginReqVo.getUserName(), server);
+
+        //将 server中的信息 解析
+        RouteInfo routeInfo = RouteInfoParseUtil.parse(server);
+
+        /**
+         * 尝试连接 检查服务器的状态
+         */
+        commonBizService.checkServerAvailable(routeInfo);
+
+        //TODO： 以后给完善成 数据库操作
+        //登入效验
+        StatusEnum statusEnum = accountService.login(loginReqVo);
+
+        if(statusEnum == StatusEnum.SUCCESS){
+
+            //保存路由信息
+            accountService.saveRouteInfo(loginReqVo,server);
+
+            AIMServerResVo vo = new AIMServerResVo(routeInfo);
+            response.setDataBody(vo);
+        }
+        response.setCode(statusEnum.getCode());
+        response.setMessage(statusEnum.getMessage());
+
         return response;
     }
 }

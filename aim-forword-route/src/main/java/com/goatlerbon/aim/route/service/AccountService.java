@@ -1,5 +1,7 @@
 package com.goatlerbon.aim.route.service;
 
+import com.goatlerbon.aim.common.enums.StatusEnum;
+import com.goatlerbon.aim.route.api.vo.req.LoginReqVo;
 import com.goatlerbon.aim.route.api.vo.res.RegisterInfoResVo;
 
 public interface AccountService {
@@ -17,4 +19,18 @@ public interface AccountService {
      * @return
      */
     RegisterInfoResVo register(RegisterInfoResVo info);
+
+    /**
+     * 登入
+     * @param loginReqVo
+     * @return
+     */
+    StatusEnum login(LoginReqVo loginReqVo);
+
+    /**
+     * 保存路由信息
+     * @param loginReqVo
+     * @param server
+     */
+    void saveRouteInfo(LoginReqVo loginReqVo, String server);
 }

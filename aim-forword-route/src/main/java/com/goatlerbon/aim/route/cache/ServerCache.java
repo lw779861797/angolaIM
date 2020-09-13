@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 服务器结点缓存 本地缓存 guava cache
@@ -46,5 +48,32 @@ public class ServerCache {
 //            存入缓存
             addCache(key);
         }
+    }
+
+    /**
+     * 从缓存中获取所有的服务列表
+     *
+     * @return
+     */
+    public List<String > getServerList(){
+        List<String > list = new ArrayList<>();
+        if(cache.size() == 0){
+            List<String > allNode = zkUtil.getAllNode();
+            for(String node : allNode){
+                String key = node.split("-")[1];
+                addCache(key);
+            }
+        }
+        for (Map.Entry<String, String> entry : cache.asMap().entrySet()) {
+            list.add(entry.getKey());
+        }
+        return list;
+    }
+
+    /**
+     * rebuild cache list
+     */
+    public void rebuildCacheList(){
+        updateCache(getServerList()) ;
     }
 }

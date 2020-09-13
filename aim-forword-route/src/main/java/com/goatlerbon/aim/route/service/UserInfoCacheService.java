@@ -15,4 +15,11 @@ public interface UserInfoCacheService {
      * @param userId
      */
     void removeLoginStatus(Long userId);
+
+    /**
+     * 保存登录状态
+     * @param userId
+     * @return
+     */
+    boolean saveAndCheckUserLoginStatus(Long userId);
 }
