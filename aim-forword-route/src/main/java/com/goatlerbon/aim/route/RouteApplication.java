@@ -13,7 +13,7 @@ public class RouteApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(RouteApplication.class, args);
-        LOGGER.info("Start cim route success!!!");
+        LOGGER.info("Start aim route success!!!");
     }
 
     @Override
