@@ -1,5 +1,7 @@
 package com.goatlerbon.aim.route.service;
 
+import com.goatlerbon.aim.route.api.vo.res.RegisterInfoResVo;
+
 public interface AccountService {
 
     /**
@@ -8,4 +10,11 @@ public interface AccountService {
      * @throws Exception
      */
     void offLine(Long userId) throws Exception;
+
+    /**
+     * 注册用户
+     * @param info 用户信息
+     * @return
+     */
+    RegisterInfoResVo register(RegisterInfoResVo info);
 }
