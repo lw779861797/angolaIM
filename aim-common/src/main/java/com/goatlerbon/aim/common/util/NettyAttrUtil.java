@@ -7,6 +7,7 @@ import io.netty.util.AttributeKey;
 public class NettyAttrUtil {
     /**
      * 为channel 设置一个属性
+     * 这个属性就是判断 客户端最后一次读写发生在什么时候
      */
     private static final AttributeKey<String> ATTR_KEY_READER_TIME = AttributeKey.valueOf("readerTime");
 
