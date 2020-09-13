@@ -1,6 +1,7 @@
 package com.goatlerbon.aim.route.service;
 
 import com.goatlerbon.aim.common.enums.StatusEnum;
+import com.goatlerbon.aim.route.api.vo.req.ChatReqVo;
 import com.goatlerbon.aim.route.api.vo.req.LoginReqVo;
 import com.goatlerbon.aim.route.api.vo.req.SimpleChatReqVo;
 import com.goatlerbon.aim.route.api.vo.res.AIMServerResVo;
@@ -49,5 +50,5 @@ public interface AccountService {
      * @param userId
      * @param chatReqVo
      */
-    void pushMsg(AIMServerResVo serverResVo, Long userId, SimpleChatReqVo chatReqVo);
+    void pushMsg(AIMServerResVo serverResVo, Long userId, ChatReqVo chatReqVo);
 }

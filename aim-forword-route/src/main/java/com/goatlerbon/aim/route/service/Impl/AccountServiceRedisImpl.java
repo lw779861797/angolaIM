@@ -3,6 +3,7 @@ package com.goatlerbon.aim.route.service.Impl;
 import com.goatlerbon.aim.common.enums.StatusEnum;
 import com.goatlerbon.aim.common.exception.AIMException;
 import com.goatlerbon.aim.common.util.RouteInfoParseUtil;
+import com.goatlerbon.aim.route.api.vo.req.ChatReqVo;
 import com.goatlerbon.aim.route.api.vo.req.LoginReqVo;
 import com.goatlerbon.aim.route.api.vo.req.SimpleChatReqVo;
 import com.goatlerbon.aim.route.api.vo.res.AIMServerResVo;
@@ -101,7 +102,7 @@ public class AccountServiceRedisImpl implements AccountService {
     }
 
     @Override
-    public void pushMsg(AIMServerResVo serverResVo, Long userId, SimpleChatReqVo chatReqVo) {
+    public void pushMsg(AIMServerResVo serverResVo, Long userId, ChatReqVo chatReqVo) {
 
     }
 }

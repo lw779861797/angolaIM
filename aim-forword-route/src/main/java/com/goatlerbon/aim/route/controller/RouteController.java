@@ -153,7 +153,7 @@ public class RouteController implements RouteApi {
             ChatReqVo chatVo = new ChatReqVo(chatReqVo.getReceiveUserId(),chatReqVo.getMsg());
 
 //            向服务器发送消息
-            accountService.pushMsg(serverResVo,chatReqVo.getUserId(),chatReqVo);
+            accountService.pushMsg(serverResVo,chatReqVo.getUserId(),chatVo);
 
             response.setCode(StatusEnum.SUCCESS.getCode());
             response.setMessage(StatusEnum.SUCCESS.getMessage());
