@@ -1,6 +1,7 @@
 package com.goatlerbon.aim.route.controller;
 
 import com.goatlerbon.aim.common.enums.StatusEnum;
+import com.goatlerbon.aim.common.exception.AIMException;
 import com.goatlerbon.aim.common.pojo.AIMUserInfo;
 import com.goatlerbon.aim.common.pojo.RouteInfo;
 import com.goatlerbon.aim.common.res.BaseResponse;
@@ -11,6 +12,7 @@ import com.goatlerbon.aim.route.api.RouteApi;
 import com.goatlerbon.aim.route.api.vo.req.ChatReqVo;
 import com.goatlerbon.aim.route.api.vo.req.LoginReqVo;
 import com.goatlerbon.aim.route.api.vo.req.RegisterInfoReqVo;
+import com.goatlerbon.aim.route.api.vo.req.SimpleChatReqVo;
 import com.goatlerbon.aim.route.api.vo.res.AIMServerResVo;
 import com.goatlerbon.aim.route.api.vo.res.RegisterInfoResVo;
 import com.goatlerbon.aim.route.cache.ServerCache;
@@ -134,6 +136,31 @@ public class RouteController implements RouteApi {
         response.setCode(statusEnum.getCode());
         response.setMessage(statusEnum.getMessage());
 
+        return response;
+    }
+
+    @ApiOperation("私聊 API")
+    @RequestMapping(value = "simpleRoute", method = RequestMethod.POST)
+    @ResponseBody
+    @Override
+    public BaseResponse<NULLBody> simpleRoute(@RequestBody SimpleChatReqVo chatReqVo)throws Exception{
+        BaseResponse<NULLBody> response = new BaseResponse<>();
+        try {
+            //获取接收消息用户的路由信息
+            AIMServerResVo serverResVo = accountService.loadRouteRelatedByUserId(chatReqVo.getReceiveUserId());
+
+//            ReceiveUserId 是接收者的ID
+            ChatReqVo chatVo = new ChatReqVo(chatReqVo.getReceiveUserId(),chatReqVo.getMsg());
+
+//            向服务器发送消息
+            accountService.pushMsg(serverResVo,chatReqVo.getUserId(),chatReqVo);
+
+            response.setCode(StatusEnum.SUCCESS.getCode());
+            response.setMessage(StatusEnum.SUCCESS.getMessage());
+        }catch (AIMException e){
+            response.setCode(e.getErrorCode());
+            response.setMessage(e.getErrorMessage());
+        }
         return response;
     }
 }

@@ -1,7 +1,11 @@
 package com.goatlerbon.aim.route.service.Impl;
 
 import com.goatlerbon.aim.common.enums.StatusEnum;
+import com.goatlerbon.aim.common.exception.AIMException;
+import com.goatlerbon.aim.common.util.RouteInfoParseUtil;
 import com.goatlerbon.aim.route.api.vo.req.LoginReqVo;
+import com.goatlerbon.aim.route.api.vo.req.SimpleChatReqVo;
+import com.goatlerbon.aim.route.api.vo.res.AIMServerResVo;
 import com.goatlerbon.aim.route.api.vo.res.RegisterInfoResVo;
 import com.goatlerbon.aim.route.service.AccountService;
 import com.goatlerbon.aim.route.service.UserInfoCacheService;
@@ -82,5 +86,22 @@ public class AccountServiceRedisImpl implements AccountService {
     public void saveRouteInfo(LoginReqVo loginReqVo, String msg) {
         String key = ROUTE_PREFIX + loginReqVo.getUserId();
         redisTemplate.opsForValue().set(key, msg);
+    }
+
+    @Override
+    public AIMServerResVo loadRouteRelatedByUserId(Long receiveUserId) {
+        String value = (String) redisTemplate.opsForValue().get(ROUTE_PREFIX + receiveUserId);
+        if(value == null){
+            //value 等于空说明 接受用户不在线
+            throw new AIMException(StatusEnum.OFF_LINE);
+        }
+
+        AIMServerResVo aimServerResVo = new AIMServerResVo(RouteInfoParseUtil.parse(value));
+        return aimServerResVo;
+    }
+
+    @Override
+    public void pushMsg(AIMServerResVo serverResVo, Long userId, SimpleChatReqVo chatReqVo) {
+
     }
 }
