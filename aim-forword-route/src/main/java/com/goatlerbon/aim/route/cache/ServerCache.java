@@ -43,6 +43,7 @@ public class ServerCache {
             }else {
                 key = currentChild ;
             }
+//            存入缓存
             addCache(key);
         }
     }

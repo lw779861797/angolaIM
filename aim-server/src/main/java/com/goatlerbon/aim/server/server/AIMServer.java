@@ -1,12 +1,18 @@
 package com.goatlerbon.aim.server.server;
 
+import com.goatlerbon.aim.common.constant.Constants;
+import com.goatlerbon.aim.common.protocol.AIMRequestProto;
+import com.goatlerbon.aim.server.api.vo.req.SendMsgReqVo;
 import com.goatlerbon.aim.server.init.AIMServerInitializer;
+import com.goatlerbon.aim.server.util.SessionSocketHolder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,7 +72,7 @@ public class AIMServer {
     private EventLoopGroup boss = new NioEventLoopGroup();
     private EventLoopGroup work = new NioEventLoopGroup();
 
-    @Value("${aim.server.port")
+    @Value("${aim.server.port}")
     private int nettyPort;
 
     /**
@@ -94,5 +100,25 @@ public class AIMServer {
         boss.shutdownGracefully().syncUninterruptibly();
         work.shutdownGracefully().syncUninterruptibly();
         LOGGER.info("Close aim server success!!!");
+    }
+
+    /**
+     * 服务器发送消息到客户端
+     * @param sendMsgReqVo
+     */
+    public void sendMsg(SendMsgReqVo sendMsgReqVo) {
+        NioSocketChannel socketChannel = SessionSocketHolder.get(sendMsgReqVo.getUserId());
+
+        if(socketChannel == null){
+            LOGGER.error("client {} offline!", sendMsgReqVo.getUserId());
+        }
+        AIMRequestProto.AIMReqProtocol protocol = AIMRequestProto.AIMReqProtocol.newBuilder()
+                .setRequestId(sendMsgReqVo.getUserId())
+                .setReqMsg(sendMsgReqVo.getMsg())
+                .setType(Constants.CommandType.MSG)
+                .build();
+        ChannelFuture future = socketChannel.writeAndFlush(protocol);
+        future.addListener((ChannelFutureListener) channelFuture ->
+                LOGGER.info("server push msg:[{}]", sendMsgReqVo.toString()));
     }
 }
