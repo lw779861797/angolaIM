@@ -5,8 +5,11 @@ import com.goatlerbon.aim.client.service.EchoService;
 import com.goatlerbon.aim.client.service.MsgHandle;
 import com.goatlerbon.aim.client.service.MsgLogger;
 import com.goatlerbon.aim.client.util.SpringBeanFactory;
+import com.vdurmont.emoji.EmojiParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Scanner;
 
 public class Scan implements Runnable {
 
@@ -32,6 +35,27 @@ public class Scan implements Runnable {
 
     @Override
     public void run() {
+        Scanner sc = new Scanner(System.in);
+        while(true){
+            String msg = sc.nextLine();
 
+            //消息检查
+            if(msgHandle.checkMsg(msg)){
+                continue;
+            }
+
+            //系统内置命令
+            if (msgHandle.innerCommand(msg)){
+                continue;
+            }
+
+            //真正的发送消息
+            msgHandle.sendMsg(msg) ;
+
+            //写入聊天记录
+            msgLogger.log(msg) ;
+
+            echoService.echo(EmojiParser.parseToUnicode(msg));
+        }
     }
 }
