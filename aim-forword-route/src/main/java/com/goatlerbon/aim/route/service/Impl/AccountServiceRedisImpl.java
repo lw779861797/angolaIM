@@ -1,7 +1,9 @@
 package com.goatlerbon.aim.route.service.Impl;
 
+import com.goatlerbon.aim.common.core.proxy.ProxyManager;
 import com.goatlerbon.aim.common.enums.StatusEnum;
 import com.goatlerbon.aim.common.exception.AIMException;
+import com.goatlerbon.aim.common.pojo.AIMUserInfo;
 import com.goatlerbon.aim.common.util.RouteInfoParseUtil;
 import com.goatlerbon.aim.route.api.vo.req.ChatReqVo;
 import com.goatlerbon.aim.route.api.vo.req.LoginReqVo;
@@ -10,6 +12,12 @@ import com.goatlerbon.aim.route.api.vo.res.AIMServerResVo;
 import com.goatlerbon.aim.route.api.vo.res.RegisterInfoResVo;
 import com.goatlerbon.aim.route.service.AccountService;
 import com.goatlerbon.aim.route.service.UserInfoCacheService;
+import com.goatlerbon.aim.server.api.ServerApi;
+import com.goatlerbon.aim.server.api.vo.req.SendMsgReqVo;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -19,12 +27,16 @@ import static com.goatlerbon.aim.route.constant.Constant.ROUTE_PREFIX;
 
 @Service
 public class AccountServiceRedisImpl implements AccountService {
+    private final static Logger LOGGER = LoggerFactory.getLogger(AccountServiceRedisImpl.class);
 
     @Autowired
     RedisTemplate redisTemplate;
 
     @Autowired
     UserInfoCacheService userInfoCacheService;
+
+    @Autowired
+    OkHttpClient okHttpClient;
 
     @Override
     public void offLine(Long userId) throws Exception {
@@ -102,7 +114,21 @@ public class AccountServiceRedisImpl implements AccountService {
     }
 
     @Override
-    public void pushMsg(AIMServerResVo serverResVo, Long userId, ChatReqVo chatReqVo) {
+    public void pushMsg(AIMServerResVo serverResVo, Long sendUserId, ChatReqVo chatReqVo) {
+//        获取用户信息
+        AIMUserInfo userInfo = userInfoCacheService.loadUserInfoByUserId(sendUserId);
 
+        String url = "http://" + serverResVo.getIp() + ":" + serverResVo.getHttpPort();
+        //反射调用远程方法
+        ServerApi serverApi = new ProxyManager<>(ServerApi.class, url, okHttpClient).getInstance();
+        SendMsgReqVo vo = new SendMsgReqVo(userInfo.getUserName() + ":" + chatReqVo.getMsg(),chatReqVo.getUserId());
+        Response response = null;
+        try {
+            response = (Response) serverApi.sendMsg(vo);
+        } catch (Exception e) {
+            LOGGER.error("Exception", e);
+        } finally {
+            response.body().close();
+        }
     }
 }
