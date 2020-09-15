@@ -2,7 +2,7 @@
 
 <div align="center">  
 
-<img src="http://193.112.161.26:88/imooc/M00/00/00/rBAABF86obuAUMTLAD7UQh42qae596_80x80.png"  /> 
+<img src="http://193.112.161.26:88/imooc/M00/00/00/rBAABF86obuAUMTLAD7UQh42qar596_80x80.png"  /> 
 <br/>
 
 [![Build Status](https://img.shields.io/badge/aim-angola--im-green)](https://github.com/lw779861797/angolaIM/tree/dev)
