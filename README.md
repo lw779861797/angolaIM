@@ -5,10 +5,10 @@
 <img src="https://i.loli.net/2020/02/21/rfOGvKlTcHCmM92.png"  /> 
 <br/>
 
-[![Build Status](https://img.shields.io/badge/cim-cross--im-brightgreen.svg)](https://github.com/crossoverJie/cim)
+[![Build Status](http://193.112.161.26:88/imooc/M00/00/00/rBAABF86obuAUMTLAD7UQh42qae596_80x80.png)](https://github.com/lw779861797/angolaIM/tree/dev)
 [![](https://badge.juejin.im/entry/5c2c000e6fb9a049f5713e26/likes.svg?style=flat-square)](https://juejin.im/post/5c2bffdc51882509181395d7)
 
-📘[介绍](#介绍) |📽[视频演示](#视频演示) | 🏖[TODO LIST](#todo-list) | 🌈[系统架构](#系统架构) |💡[流程图](#流程图)|🌁[快速启动](#快速启动)|👨🏻‍✈️[内置命令](#客户端内置命令)|🎤[通信](#群聊私聊)|❓[QA](https://github.com/crossoverJie/cim/blob/master/doc/QA.md)|💌[联系作者](#联系作者)
+📘[介绍](#介绍) |📽[视频演示](#视频演示) | 🏖[TODO LIST](#todo-list) | 🌈[系统架构](#系统架构) |💡[流程图](#流程图)|🌁[快速启动](#快速启动)|👨🏻‍✈️[内置命令](#客户端内置命令)|🎤[通信](#群聊私聊)|❓[QA](https://github.com/crossoverJie/cim/blob/master/doc/QA.md)
 
 
 </div>
@@ -24,8 +24,6 @@
 - `IM` 即时通讯系统。
 - 适用于 `APP` 的消息推送中间件。
 - `IOT` 海量连接场景中的消息透传中间件。
-
-> 在使用或开发过程中有任何疑问都可[联系我](#联系作者)。
 
 
 ## TODO LIST
