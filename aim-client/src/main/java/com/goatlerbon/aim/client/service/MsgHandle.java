@@ -25,4 +25,6 @@ public interface MsgHandle {
      * @param msg
      */
     void sendMsg(String msg);
+
+    void shutdown();
 }
