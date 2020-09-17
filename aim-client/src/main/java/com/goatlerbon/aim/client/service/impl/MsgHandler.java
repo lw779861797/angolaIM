@@ -1,10 +1,8 @@
 package com.goatlerbon.aim.client.service.impl;
 
+import com.goatlerbon.aim.client.client.AIMClient;
 import com.goatlerbon.aim.client.config.AppConfiguration;
-import com.goatlerbon.aim.client.service.InnerCommand;
-import com.goatlerbon.aim.client.service.InnerCommandContext;
-import com.goatlerbon.aim.client.service.MsgHandle;
-import com.goatlerbon.aim.client.service.RouteRequest;
+import com.goatlerbon.aim.client.service.*;
 import com.goatlerbon.aim.client.vo.req.GroupReqVo;
 import com.goatlerbon.aim.client.vo.req.SimpleChatReqVo;
 import com.goatlerbon.aim.common.util.StringUtil;
@@ -13,9 +11,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class MsgHandler implements MsgHandle {
     private final static Logger LOGGER = LoggerFactory.getLogger(MsgHandler.class);
+
+    @Autowired
+    AIMClient aimClient;
+
+    @Resource(name = "callBackThreadPool")
+    private ThreadPoolExecutor executor;
+
+    @Autowired
+    MsgLogger msgLogger;
 
     @Autowired
     private RouteRequest routeRequest;
@@ -59,7 +70,21 @@ public class MsgHandler implements MsgHandle {
 
     @Override
     public void shutdown() {
-
+        LOGGER.info("系统关闭中。。。。");
+        routeRequest.offLine();
+        msgLogger.stop();
+        executor.shutdown();
+        try {
+            //当前线程阻塞，直到
+            //等所有已提交的任务（包括正在跑的和队列中等待的）执行完
+            while (!executor.awaitTermination(1, TimeUnit.SECONDS)) {
+                LOGGER.info("线程池关闭中。。。。");
+            }
+            aimClient.close();
+        } catch (InterruptedException e) {
+            LOGGER.error("InterruptedException", e);
+        }
+        System.exit(0);
     }
 
     /**

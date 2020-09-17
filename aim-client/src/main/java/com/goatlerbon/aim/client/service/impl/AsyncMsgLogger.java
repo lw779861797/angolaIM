@@ -46,6 +46,13 @@ public class AsyncMsgLogger implements MsgLogger{
         }
     }
 
+    @Override
+    public void stop() {
+        started = false;
+//        关闭则将 worker  的 中断标志打开
+        worker.interrupt();
+    }
+
     private class Worker extends Thread{
         @Override
         public void run() {

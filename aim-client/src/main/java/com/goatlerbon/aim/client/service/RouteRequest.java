@@ -21,5 +21,16 @@ public interface RouteRequest {
      */
     void sendSimpleChatMsg(SimpleChatReqVo simpleChatReqVo)throws Exception;
 
+    /**
+     * 获取服务器
+     * @return 服务ip+port
+     * @param loginReqVo
+     * @throws Exception
+     */
     AIMServerResVo.ServerInfo getAIMServer(LoginReqVo loginReqVo);
+
+    /**
+     * 用户下线
+     */
+    void offLine();
 }

@@ -26,5 +26,8 @@ public interface MsgHandle {
      */
     void sendMsg(String msg);
 
+    /**
+     * 关闭系统
+     */
     void shutdown();
 }

@@ -32,7 +32,7 @@ public interface RouteApi {
      * AIMServerResVo 服务器信息 IP 端口号等等
      * @return
      */
-    BaseResponse<AIMServerResVo> login(@RequestBody LoginReqVo loginReqVo) throws Exception;
+    Object login(@RequestBody LoginReqVo loginReqVo) throws Exception;
 
     /**
      * 私聊
@@ -40,5 +40,12 @@ public interface RouteApi {
      * @return
      * @throws Exception
      */
-    BaseResponse<NULLBody> simpleRoute(@RequestBody SimpleChatReqVo chatReqVo)throws Exception;
+    Object simpleRoute(@RequestBody SimpleChatReqVo chatReqVo)throws Exception;
+
+    /**
+     * 群聊
+     * @param chatReqVO
+     * @return
+     */
+    Object groupRoute(ChatReqVo chatReqVO);
 }

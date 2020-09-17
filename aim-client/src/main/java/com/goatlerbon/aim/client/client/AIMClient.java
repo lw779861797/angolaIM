@@ -70,7 +70,7 @@ public class AIMClient {
     //初始化方法在属性被注入之后调用
     @PostConstruct
     public void start(){
-        //获取可以使用的服务器 ip + port
+        //登入 + 获取可以使用的服务器 ip + port
         AIMServerResVo.ServerInfo aimServer = userLogin();
 
 //        启动netty客户端
@@ -81,7 +81,7 @@ public class AIMClient {
     }
 
     /**
-     * 向服务器发起登入请求
+     * 向路由服务器发起登入请求
      */
     private void loginAIMServer() {
         AIMRequestProto.AIMReqProtocol login = AIMRequestProto.AIMReqProtocol.newBuilder()
@@ -101,7 +101,7 @@ public class AIMClient {
     }
 
     /**
-     * 路由服务器
+     * 获得服务器信息
      *
      * @return 路由服务器信息
      * @throws Exception
@@ -159,5 +159,16 @@ public class AIMClient {
             LOGGER.info("启动 aim client 成功");
         }
         socketChannel = (io.netty.channel.socket.SocketChannel) future.channel();
+    }
+
+    /**
+     * 关闭
+     *
+     * @throws InterruptedException
+     */
+    public void close() throws InterruptedException {
+        if (socketChannel != null){
+            socketChannel.close();
+        }
     }
 }

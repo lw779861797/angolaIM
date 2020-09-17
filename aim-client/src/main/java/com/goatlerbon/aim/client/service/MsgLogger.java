@@ -9,4 +9,9 @@ public interface MsgLogger {
      * @param msg
      */
     void log(String msg);
+
+    /**
+     * 停止写入
+     */
+    void stop();
 }
