@@ -1,6 +1,6 @@
 package com.goatlerbon.aim.client.scan;
 
-import com.goatlerbon.aim.client.AppConfiguration;
+import com.goatlerbon.aim.client.config.AppConfiguration;
 import com.goatlerbon.aim.client.service.EchoService;
 import com.goatlerbon.aim.client.service.MsgHandle;
 import com.goatlerbon.aim.client.service.MsgLogger;
