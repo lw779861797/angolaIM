@@ -4,13 +4,18 @@ import com.goatlerbon.aim.client.config.AppConfiguration;
 import com.goatlerbon.aim.client.init.AIMClientHandleInitializer;
 import com.goatlerbon.aim.client.service.EchoService;
 import com.goatlerbon.aim.client.service.MsgHandle;
+import com.goatlerbon.aim.client.service.ReConnectManager;
 import com.goatlerbon.aim.client.service.RouteRequest;
 import com.goatlerbon.aim.client.service.impl.ClientInfo;
+import com.goatlerbon.aim.client.thread.ContextHolder;
+import com.goatlerbon.aim.client.vo.req.GoogleProtocolVo;
 import com.goatlerbon.aim.client.vo.req.LoginReqVo;
 import com.goatlerbon.aim.client.vo.res.AIMServerResVo;
 import com.goatlerbon.aim.common.constant.Constants;
 import com.goatlerbon.aim.common.protocol.AIMRequestProto;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.EventLoopGroup;
@@ -44,6 +49,9 @@ public class AIMClient {
 
     @Autowired
     RouteRequest routeRequest;
+
+    @Autowired
+    private ReConnectManager reConnectManager;
 
     private final static Logger LOGGER = LoggerFactory.getLogger(AIMClient.class);
 
@@ -170,5 +178,54 @@ public class AIMClient {
         if (socketChannel != null){
             socketChannel.close();
         }
+    }
+
+    /**
+     * 发送消息字符串
+     *
+     * @param msg
+     */
+    public void sendStringMsg(String msg){
+        ByteBuf message = Unpooled.buffer(msg.getBytes().length);
+        message.writeBytes(msg.getBytes());
+        ChannelFuture future = socketChannel.writeAndFlush(message);
+        future.addListener(new ChannelFutureListener() {
+            @Override
+            public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                LOGGER.info("客户端手动发消息成功={}", msg);
+            }
+        });
+    }
+
+    public void sendGoogleProtocolMsg(GoogleProtocolVo googleProtocolVo){
+        AIMRequestProto.AIMReqProtocol protocol = AIMRequestProto.AIMReqProtocol.newBuilder()
+                .setRequestId(googleProtocolVo.getRequestId())
+                .setReqMsg(googleProtocolVo.getMsg())
+                .setType(Constants.CommandType.MSG)
+                .build();
+        ChannelFuture future = socketChannel.writeAndFlush(protocol);
+        future.addListener((ChannelFutureListener) channelFuture ->
+                LOGGER.info("客户端手动发送 Google Protocol 成功={}", googleProtocolVo.toString()));
+    }
+
+    /**
+     * 1.清除路由信息
+     * 2.重新连接
+     * 3.关闭重新连接任务
+     * 4.重置重新连接状态。
+     */
+    public void reconnect() throws Exception{
+//        如果说连接存活 则不需要 重新 连接
+        if (socketChannel != null && socketChannel.isActive()) {
+            return;
+        }
+
+        //首先清除路由信息，下线
+        routeRequest.offLine();
+        echoService.echo("aim server shutdown, reconnecting....");
+        start();
+        echoService.echo("Great! reConnect success!!!");
+        reConnectManager.reConnectSuccess();
+        ContextHolder.clear();
     }
 }

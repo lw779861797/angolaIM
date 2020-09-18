@@ -8,6 +8,7 @@ import com.goatlerbon.aim.route.api.vo.req.RegisterInfoReqVo;
 import com.goatlerbon.aim.route.api.vo.req.SimpleChatReqVo;
 import com.goatlerbon.aim.route.api.vo.res.AIMServerResVo;
 import com.goatlerbon.aim.route.api.vo.res.RegisterInfoResVo;
+import okhttp3.Response;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public interface RouteApi {
@@ -44,8 +45,14 @@ public interface RouteApi {
 
     /**
      * 群聊
-     * @param chatReqVO
+     * @param groupReqVo
      * @return
      */
-    Object groupRoute(ChatReqVo chatReqVO);
+    Object groupRoute(ChatReqVo groupReqVo) throws Exception;
+
+    /**
+     * 获取所有在线用户
+     * @return
+     */
+    Object onlineUser();
 }

@@ -1,6 +1,7 @@
 package com.goatlerbon.aim.client.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.goatlerbon.aim.client.config.AppConfiguration;
 import com.goatlerbon.aim.client.service.EchoService;
 import com.goatlerbon.aim.client.service.RouteRequest;
 import com.goatlerbon.aim.client.thread.ContextHolder;
@@ -8,6 +9,7 @@ import com.goatlerbon.aim.client.vo.req.GroupReqVo;
 import com.goatlerbon.aim.client.vo.req.LoginReqVo;
 import com.goatlerbon.aim.client.vo.req.SimpleChatReqVo;
 import com.goatlerbon.aim.client.vo.res.AIMServerResVo;
+import com.goatlerbon.aim.client.vo.res.OnlineUsersResVo;
 import com.goatlerbon.aim.common.core.proxy.ProxyManager;
 import com.goatlerbon.aim.common.enums.StatusEnum;
 import com.goatlerbon.aim.common.exception.AIMException;
@@ -22,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RouteRequestImpl implements RouteRequest{
     private final static Logger LOGGER = LoggerFactory.getLogger(RouteRequestImpl.class);
@@ -31,6 +35,9 @@ public class RouteRequestImpl implements RouteRequest{
 
     @Autowired
     OkHttpClient okHttpClient;
+
+    @Autowired
+    AppConfiguration appConfiguration;
 
     @Value("${aim.route.url}")
     private String routeUrl ;
@@ -123,6 +130,39 @@ public class RouteRequestImpl implements RouteRequest{
 
     @Override
     public void offLine() {
+//        获取下线的接口
+        RouteApi routeApi = new ProxyManager<>(RouteApi.class,routeUrl,okHttpClient).getInstance();
+        ChatReqVo vo = new ChatReqVo(appConfiguration.getUserId(),"offLine");
+        Response response = null;
+        try {
+            response = (Response) routeApi.offLine(vo);
+        } catch (Exception e) {
+            LOGGER.error("exception",e);
+        } finally {
+            response.body().close();
+        }
+    }
 
+    /**
+     * 获取所有在线用户
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<OnlineUsersResVo.DataBodyBean> onlineUsers() throws Exception {
+        RouteApi routeApi = new ProxyManager<>(RouteApi.class,routeUrl,okHttpClient).getInstance();
+
+        Response response = null;
+        OnlineUsersResVo onlineUsersResVo = null;
+        try {
+            response = (Response) routeApi.onlineUser();
+            String json = response.body().string();
+            onlineUsersResVo = JSON.parseObject(json,OnlineUsersResVo.class);
+        }catch (Exception e){
+            LOGGER.error("exception",e);
+        }finally {
+            response.body().close();
+        }
+        return onlineUsersResVo.getDataBody();
     }
 }

@@ -7,6 +7,8 @@ import com.goatlerbon.aim.route.api.vo.req.SimpleChatReqVo;
 import com.goatlerbon.aim.route.api.vo.res.AIMServerResVo;
 import com.goatlerbon.aim.route.api.vo.res.RegisterInfoResVo;
 
+import java.util.Map;
+
 public interface AccountService {
 
     /**
@@ -51,4 +53,10 @@ public interface AccountService {
      * @param chatReqVo
      */
     void pushMsg(AIMServerResVo serverResVo, Long userId, ChatReqVo chatReqVo);
+
+    /**
+     * 加载所有用户的路有关系
+     * @return 所有的路由关系
+     */
+    Map<Long, AIMServerResVo> loadRouteRelated();
 }

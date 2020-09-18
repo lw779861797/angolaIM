@@ -29,6 +29,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Map;
+import java.util.Set;
+
 /**
  * 路由管理
  */
@@ -161,6 +164,55 @@ public class RouteController implements RouteApi {
             response.setCode(e.getErrorCode());
             response.setMessage(e.getErrorMessage());
         }
+        return response;
+    }
+
+    @ApiOperation("群聊 API")
+    @RequestMapping(value = "groupRoute", method = RequestMethod.POST)
+    @ResponseBody()
+    @Override
+    public Object groupRoute(@RequestBody ChatReqVo groupReqVo) throws Exception{
+        BaseResponse<NULLBody> response = new BaseResponse();
+        LOGGER.info("msg=[{}]", groupReqVo.toString());
+
+        //获取所有的推送列表
+        Map<Long,AIMServerResVo> serverResVoMap = accountService.loadRouteRelated();
+        for(Map.Entry<Long,AIMServerResVo> aimServerResVoEntry :serverResVoMap.entrySet()){
+            Long userId = aimServerResVoEntry.getKey();
+            AIMServerResVo cimServerResVO = aimServerResVoEntry.getValue();
+
+            //过滤掉自己
+            if (userId.equals(groupReqVo.getUserId())){
+                AIMUserInfo cimUserInfo = userInfoCacheService.loadUserInfoByUserId(groupReqVo.getUserId());
+                LOGGER.warn("过滤掉了发送者 userId={}",cimUserInfo.toString());
+                continue;
+            }
+
+            //推送消息
+            ChatReqVo chatVO = new ChatReqVo(userId,groupReqVo.getMsg()) ;
+            accountService.pushMsg(cimServerResVO ,groupReqVo.getUserId(),chatVO);
+        }
+        response.setCode(StatusEnum.SUCCESS.getCode());
+        response.setMessage(StatusEnum.SUCCESS.getMessage());
+        return response;
+    }
+
+    /**
+     * 获取所有在线用户
+     *
+     * @return
+     */
+    @ApiOperation("获取所有在线用户")
+    @RequestMapping(value = "onlineUser", method = RequestMethod.POST)
+    @ResponseBody
+    @Override
+    public BaseResponse<Set<AIMUserInfo>> onlineUser() {
+        BaseResponse<Set<AIMUserInfo>> response = new BaseResponse<>();
+
+        Set<AIMUserInfo> aimUserInfos = userInfoCacheService.onlineUser();
+        response.setCode(StatusEnum.SUCCESS.getCode());
+        response.setMessage(StatusEnum.SUCCESS.getMessage());
+        response.setDataBody(aimUserInfos);
         return response;
     }
 }

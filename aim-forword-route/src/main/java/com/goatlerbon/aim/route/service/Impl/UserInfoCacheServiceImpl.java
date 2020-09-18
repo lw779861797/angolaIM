@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.goatlerbon.aim.route.constant.Constant.ACCOUNT_PREFIX;
@@ -53,6 +55,27 @@ public class UserInfoCacheServiceImpl implements UserInfoCacheService {
 
     @Override
     public boolean saveAndCheckUserLoginStatus(Long userId) {
-        return false;
+        Long add = redisTemplate.opsForSet().add(LOGIN_STATUS_PREFIX, userId.toString());
+        if (add == 0){
+            return false ;
+        }else {
+            return true ;
+        }
+    }
+
+    @Override
+    public Set<AIMUserInfo> onlineUser() {
+        Set<AIMUserInfo> set = null;
+        // 返回LOGIN_STATUS_PREFIX 这个set 中所有的值
+        Set<String > members = redisTemplate.opsForSet().members(LOGIN_STATUS_PREFIX);
+//        member 就是用户的ID
+        for(String member : members){
+            if(set == null){
+                set = new HashSet<>(64);
+            }
+            AIMUserInfo aimUserInfo = loadUserInfoByUserId(Long.valueOf(member));
+            set.add(aimUserInfo);
+        }
+        return set;
     }
 }

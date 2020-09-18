@@ -19,8 +19,16 @@ import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.goatlerbon.aim.route.constant.Constant.ACCOUNT_PREFIX;
 import static com.goatlerbon.aim.route.constant.Constant.ROUTE_PREFIX;
@@ -130,5 +138,41 @@ public class AccountServiceRedisImpl implements AccountService {
         } finally {
             response.body().close();
         }
+    }
+
+    /**
+     * 匹配每个用户 所对应的 服务器信息
+     * @return
+     */
+    @Override
+    public Map<Long, AIMServerResVo> loadRouteRelated() {
+        Map<Long,AIMServerResVo> routes = new HashMap<>(64);
+
+        RedisConnection connection = redisTemplate.getConnectionFactory().getConnection();
+
+        ScanOptions options = ScanOptions.scanOptions()
+                .match(ROUTE_PREFIX + "*")
+                .build();
+        Cursor<byte[]> scan = connection.scan(options);
+        while(scan.hasNext()){
+            byte[] next = scan.next();
+            String key = new String(next, StandardCharsets.UTF_8);
+            LOGGER.info("key={}", key);
+            parseServerInfo(routes, key);
+        }
+        try {
+            scan.close();
+        } catch (IOException e) {
+            LOGGER.error("IOException", e);
+        }
+
+        return routes;
+    }
+
+    private void parseServerInfo(Map<Long, AIMServerResVo> routes, String key) {
+        long userId = Long.valueOf(key.split(":")[1]);
+        String value = (String) redisTemplate.opsForValue().get(key);
+        AIMServerResVo aimServerResVo = new AIMServerResVo(RouteInfoParseUtil.parse(value));
+        routes.put(userId, aimServerResVo);
     }
 }

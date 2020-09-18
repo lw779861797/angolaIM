@@ -4,6 +4,9 @@ import com.goatlerbon.aim.client.vo.req.GroupReqVo;
 import com.goatlerbon.aim.client.vo.req.LoginReqVo;
 import com.goatlerbon.aim.client.vo.req.SimpleChatReqVo;
 import com.goatlerbon.aim.client.vo.res.AIMServerResVo;
+import com.goatlerbon.aim.client.vo.res.OnlineUsersResVo;
+
+import java.util.List;
 
 public interface RouteRequest {
     /**
@@ -33,4 +36,11 @@ public interface RouteRequest {
      * 用户下线
      */
     void offLine();
+
+    /**
+     * 获取所有在线用户
+     * @return
+     * @throws Exception
+     */
+    List<OnlineUsersResVo.DataBodyBean> onlineUsers()throws Exception ;
 }
