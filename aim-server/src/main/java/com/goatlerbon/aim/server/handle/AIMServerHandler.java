@@ -73,6 +73,8 @@ public class AIMServerHandler extends SimpleChannelInboundHandler<AIMRequestProt
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, AIMRequestProto.AIMReqProtocol msg) throws Exception {
         LOGGER.info("received msg=[{}]", msg.toString());
+
+
         //此消息为登入操作
         if(msg.getType() == Constants.CommandType.LOGIN){
 //            保存客户端用户 与 channel之间的关系

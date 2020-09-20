@@ -87,6 +87,11 @@ public class MsgHandler implements MsgHandle {
         System.exit(0);
     }
 
+    @Override
+    public void closeAIModel() {
+        aiModel = false;
+    }
+
     /**
      * 正常聊天
      * @param msg

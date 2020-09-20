@@ -1,5 +1,6 @@
 package com.goatlerbon.aim.client.config;
 
+import com.goatlerbon.aim.common.data.construct.RingBufferWheel;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
@@ -49,5 +50,11 @@ public class BeanConfig {
                 .build();
         ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(poolSize,poolSize,1,TimeUnit.MILLISECONDS,queue,product);
         return poolExecutor;
+    }
+
+    @Bean
+    public RingBufferWheel bufferWheel(){
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        return new RingBufferWheel(executorService);
     }
 }
