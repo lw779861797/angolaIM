@@ -92,6 +92,11 @@ public class MsgHandler implements MsgHandle {
         aiModel = false;
     }
 
+    @Override
+    public void openAIModel() {
+        aiModel = true;
+    }
+
     /**
      * 正常聊天
      * @param msg

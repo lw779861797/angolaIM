@@ -12,6 +12,9 @@ import javax.annotation.Resource;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 关闭指令处理
+ */
 @Service
 public class ShutDownCommand implements InnerCommand {
     private final static Logger LOGGER = LoggerFactory.getLogger(ShutDownCommand.class);

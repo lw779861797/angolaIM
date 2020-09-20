@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
+/**
+ * 查询所有指令 处理
+ */
 public class PrintAllCommand implements InnerCommand {
     private final static Logger LOGGER = LoggerFactory.getLogger(PrintAllCommand.class);
 
