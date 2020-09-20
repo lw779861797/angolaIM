@@ -53,6 +53,11 @@ public class AsyncMsgLogger implements MsgLogger{
         worker.interrupt();
     }
 
+    @Override
+    public String query(String s) {
+        return null;
+    }
+
     private class Worker extends Thread{
         @Override
         public void run() {

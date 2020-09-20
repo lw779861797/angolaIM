@@ -32,6 +32,10 @@ public class TrieTree {
      */
     private static final int MAX_CHAR_LENGTH = 16;
 
+    public TrieTree() {
+        root = new Node();
+    }
+
     /**
      * 插入数据
      */

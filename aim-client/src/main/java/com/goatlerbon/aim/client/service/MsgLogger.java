@@ -14,4 +14,6 @@ public interface MsgLogger {
      * 停止写入
      */
     void stop();
+
+    String query(String s);
 }
