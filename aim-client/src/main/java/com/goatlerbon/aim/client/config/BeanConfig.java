@@ -1,5 +1,8 @@
 package com.goatlerbon.aim.client.config;
 
+import com.goatlerbon.aim.client.handle.MsgHandleCaller;
+import com.goatlerbon.aim.client.service.MsgHandle;
+import com.goatlerbon.aim.client.service.impl.MsgCallBackListener;
 import com.goatlerbon.aim.common.data.construct.RingBufferWheel;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import okhttp3.OkHttpClient;
@@ -56,5 +59,24 @@ public class BeanConfig {
     public RingBufferWheel bufferWheel(){
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         return new RingBufferWheel(executorService);
+    }
+
+    @Bean("scheduledTask")
+    public ScheduledExecutorService buildSchedule(){
+        ThreadFactory factory = new ThreadFactoryBuilder()
+                .setNameFormat("reConnect-job-%d")
+                .setDaemon(true)
+                .build();
+        ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1,factory);
+        return scheduledExecutorService;
+    }
+
+    /**
+     * 回调bean
+     */
+    @Bean
+    public MsgHandleCaller buildCaller(){
+        MsgHandleCaller caller = new MsgHandleCaller(new MsgCallBackListener());
+        return caller;
     }
 }

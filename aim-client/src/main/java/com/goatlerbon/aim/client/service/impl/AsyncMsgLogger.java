@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class AsyncMsgLogger implements MsgLogger{
@@ -54,8 +56,26 @@ public class AsyncMsgLogger implements MsgLogger{
     }
 
     @Override
-    public String query(String s) {
-        return null;
+    public String query(String key) {
+        StringBuffer sb = new StringBuffer();
+
+        Path path = Paths.get(appConfiguration.getMsgLoggerPath() + appConfiguration.getUserName() + "/");
+        try {
+//            先获得stream流
+            Stream<Path> list = Files.list(path);
+            List<Path> collect = list.collect(Collectors.toList());
+            for(Path file : collect){
+                List<String > strings = Files.readAllLines(file);
+                for(String msg : strings){
+                    if(msg.trim().contains(key)){
+                        sb.append(msg).append("\n");
+                    }
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.info("IOException", e);
+        }
+        return sb.toString().replace(key, "\033[31;4m" + key + "\033[0m");
     }
 
     private class Worker extends Thread{

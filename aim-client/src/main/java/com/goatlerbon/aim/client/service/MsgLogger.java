@@ -15,5 +15,10 @@ public interface MsgLogger {
      */
     void stop();
 
+    /**
+     * 查询聊天记录
+     * @param s
+     * @return
+     */
     String query(String s);
 }
