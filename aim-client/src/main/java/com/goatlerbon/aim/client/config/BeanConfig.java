@@ -3,7 +3,9 @@ package com.goatlerbon.aim.client.config;
 import com.goatlerbon.aim.client.handle.MsgHandleCaller;
 import com.goatlerbon.aim.client.service.MsgHandle;
 import com.goatlerbon.aim.client.service.impl.MsgCallBackListener;
+import com.goatlerbon.aim.common.constant.Constants;
 import com.goatlerbon.aim.common.data.construct.RingBufferWheel;
+import com.goatlerbon.aim.common.protocol.AIMRequestProto;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
@@ -26,6 +28,19 @@ public class BeanConfig {
 
     @Value("${aim.callback.thread.pool.size}")
     private int poolSize;
+
+    /**
+     * 创建心跳实例
+     */
+    @Bean(value = "heartBeat")
+    public AIMRequestProto.AIMReqProtocol heartBeat(){
+        AIMRequestProto.AIMReqProtocol heart = AIMRequestProto.AIMReqProtocol.newBuilder()
+                .setRequestId(userId)
+                .setReqMsg("ping")
+                .setType(Constants.CommandType.PING)
+                .build();
+        return heart;
+    }
 
     /**
      * http client

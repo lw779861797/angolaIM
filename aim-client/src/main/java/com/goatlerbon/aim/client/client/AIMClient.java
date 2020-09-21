@@ -225,6 +225,8 @@ public class AIMClient {
         echoService.echo("aim server shutdown, reconnecting....");
         start();
         echoService.echo("Great! reConnect success!!!");
+
+//        重新连接成功后 就关闭 定时 重新连接的任务
         reConnectManager.reConnectSuccess();
         ContextHolder.clear();
     }
