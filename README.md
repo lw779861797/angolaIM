@@ -10,7 +10,7 @@
 [![Build Status](https://img.shields.io/badge/platform-linux%7Cwindow-orange)](https://github.com/lw779861797/angolaIM/tree/dev)
 [![Build Status](https://img.shields.io/badge/contact-779861797%40qq.com-yellowgreen)](https://github.com/lw779861797/angolaIM/tree/dev) 
 
-📘[介绍](#介绍) | 🏖[TODO LIST](#todo-list) | 🌈[系统架构](#系统架构) |💡[流程图](#流程图)|🌁[快速启动](#快速启动)|👨🏻‍✈️[内置命令](#客户端内置命令)|🎤[通信](#群聊私聊)|❓[QA](https://github.com/crossoverJie/cim/blob/master/doc/QA.md)
+📘[介绍](#介绍) | 🏖[TODO LIST](#todo-list) | 🌈[系统架构](#系统架构) |💡[流程图](#流程图)|🌁[快速启动](#快速启动)|👨🏻‍✈️[内置命令](#客户端内置命令)|🎤[通信](#群聊私聊)
 
 
 </div>
