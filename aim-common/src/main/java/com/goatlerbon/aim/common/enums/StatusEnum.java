@@ -27,7 +27,7 @@ public enum StatusEnum {
     /** 账号不在线 */
     OFF_LINE("7000", "你选择的账号不在线，请重新选择！"),
 
-    SERVER_NOT_AVAILABLE("7100", "cim server is not available, please try again later!"),
+    SERVER_NOT_AVAILABLE("7100", "aim server is not available, please try again later!"),
 
     RECONNECT_FAIL("7200", "Reconnect fail, continue to retry!"),
     /** 登录信息不匹配 */

@@ -2,6 +2,7 @@ package com.goatlerbon.aim.server.controller;
 
 import com.goatlerbon.aim.common.enums.StatusEnum;
 import com.goatlerbon.aim.common.res.BaseResponse;
+import com.goatlerbon.aim.server.api.ServerApi;
 import com.goatlerbon.aim.server.api.vo.req.SendMsgReqVo;
 import com.goatlerbon.aim.server.api.vo.res.SendMsgResVo;
 import com.goatlerbon.aim.server.server.AIMServer;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 服务器controller
  */
 @Controller
-public class IndexController {
+public class IndexController implements ServerApi {
 
     @Autowired
     private AIMServer aimServer;

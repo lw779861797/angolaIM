@@ -6,16 +6,8 @@
 
     <groupId>org.example</groupId>
     <artifactId>aim-master</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>aim-client</module>
-        <module>aim-server</module>
-        <module>aim-common</module>
-        <module>aim-server-api</module>
-        <module>aim-route-api</module>
-        <module>aim-forword-route</module>
-    </modules>
 
     <properties>
         <junit.version>4.12</junit.version>
@@ -32,6 +24,15 @@
         <version>2.1.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+    <modules>
+        <module>aim-client</module>
+        <module>aim-server</module>
+        <module>aim-common</module>
+        <module>aim-server-api</module>
+        <module>aim-route-api</module>
+        <module>aim-forword-route</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
@@ -50,19 +51,19 @@
             <dependency>
                 <groupId>org.example</groupId>
                 <artifactId>aim-common</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>1.0.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.example</groupId>
                 <artifactId>aim-route-api</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>1.0.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.example</groupId>
                 <artifactId>aim-server-api</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>1.0.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>

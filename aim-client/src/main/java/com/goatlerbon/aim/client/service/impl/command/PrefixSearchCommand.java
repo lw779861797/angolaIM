@@ -22,6 +22,7 @@ public class PrefixSearchCommand implements InnerCommand {
     @Autowired
     private RouteRequest routeRequest;
 
+    @Autowired
     private EchoService echoService;
     @Override
     public void process(String msg) {
