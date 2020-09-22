@@ -87,7 +87,7 @@
 
 ```shell
 git clone https://github.com/lw779861797/angolaIM.git
-cd cim
+cd aim
 mvn -Dmaven.test.skip=true clean package
 ```
 
@@ -178,7 +178,7 @@ java -jar aim-client-1.0-SNAPSHOT.jar --server.port=8084 --aim.user.id=上方返
 
 ### 聊天记录查询
 
-![](https://i.loli.net/2019/05/08/5cd1c310cb796.jpg)
+![](https://s1.ax1x.com/2020/09/22/wOI7Yq.png)
 
 使用命令 `:q 关键字` 即可查询与个人相关的聊天记录。
 
@@ -188,7 +188,7 @@ java -jar aim-client-1.0-SNAPSHOT.jar --server.port=8084 --aim.user.id=上方返
 
 ### AI 模式
 
-![](https://i.loli.net/2019/05/08/5cd1c30e47d95.jpg)
+![](https://s1.ax1x.com/2020/09/22/wOoDjU.png)
 
 使用命令 `:ai` 开启 AI 模式，之后所有的消息都会由 `AI` 响应。
 
@@ -196,7 +196,7 @@ java -jar aim-client-1.0-SNAPSHOT.jar --server.port=8084 --aim.user.id=上方返
 
 ### 前缀匹配用户名
 
-![](https://i.loli.net/2019/05/08/5cd1c32ac3397.jpg)
+![](https://s1.ax1x.com/2020/09/22/wOT88x.png)
 
 使用命令 `:qu prefix` 可以按照前缀的方式搜索用户信息。
 
@@ -206,9 +206,8 @@ java -jar aim-client-1.0-SNAPSHOT.jar --server.port=8084 --aim.user.id=上方返
 
 #### 群聊
 
-![](https://ws1.sinaimg.cn/large/006tNbRwly1fyli54e8e1j31t0056x11.jpg)
-![](https://ws3.sinaimg.cn/large/006tNbRwly1fyli5yyspmj31im06atb8.jpg)
-![](https://ws3.sinaimg.cn/large/006tNbRwly1fyli6sn3c8j31ss06qmzq.jpg)
+![](https://s1.ax1x.com/2020/09/22/wO7Eod.png)
+![](https://s1.ax1x.com/2020/09/22/wO7tWq.png)
 
 群聊只需要在控制台里输入消息回车后即可发送，同时所有在线客户端都可收到消息。
 
@@ -218,26 +217,19 @@ java -jar aim-client-1.0-SNAPSHOT.jar --server.port=8084 --aim.user.id=上方返
 
 输入命令 `:olu` 可列出所有在线用户。
 
-![](https://ws4.sinaimg.cn/large/006tNbRwly1fyli98mlf3j31ta06mwhv.jpg)
+![](https://s1.ax1x.com/2020/09/22/wO7x0g.png)
 
 接着使用 `userId;;消息内容` 的格式即可发送私聊消息。
 
-![](https://ws4.sinaimg.cn/large/006tNbRwly1fylib08qlnj31sk082zo6.jpg)
-![](https://ws1.sinaimg.cn/large/006tNbRwly1fylibc13etj31wa0564lp.jpg)
-![](https://ws3.sinaimg.cn/large/006tNbRwly1fylicmjj6cj31wg07c4qp.jpg)
-![](https://ws1.sinaimg.cn/large/006tNbRwly1fylicwhe04j31ua03ejsv.jpg)
-
-同时另一个账号收不到消息。
-![](https://ws3.sinaimg.cn/large/006tNbRwly1fylie727jaj31t20dq1ky.jpg)
-
-
+![](https://s1.ax1x.com/2020/09/22/wOHsu8.png)
+![](https://s1.ax1x.com/2020/09/22/wOb9bD.png)
 
 ### emoji 表情支持
 
 使用命令 `:emoji 1` 查询出所有表情列表，使用表情别名即可发送表情。
 
-![](https://tva1.sinaimg.cn/large/006y8mN6ly1g6j910cqrzj30dn05qjw9.jpg)
-![](https://tva1.sinaimg.cn/large/006y8mN6ly1g6j99hazg6j30ax03hq35.jpg)
+![](https://s1.ax1x.com/2020/09/22/wObMVg.png)
+![](https://s1.ax1x.com/2020/09/22/wOb8Gn.png)
  
 ### 延时消息
 
@@ -247,9 +239,8 @@ java -jar aim-client-1.0-SNAPSHOT.jar --server.port=8084 --aim.user.id=上方返
 :delay delayMsg 10
 ```
 
-![](https://tva1.sinaimg.cn/large/006y8mN6ly1g7brppmokqg30gn07gafj.gif)
-
-![](https://ws1.sinaimg.cn/large/006tKfTcly1ftmfdo6mhmj30760760t7.jpg)
+![](https://s1.ax1x.com/2020/09/22/wObqL8.png)
+![](https://s1.ax1x.com/2020/09/22/wObzJs.png)
 
 
 
