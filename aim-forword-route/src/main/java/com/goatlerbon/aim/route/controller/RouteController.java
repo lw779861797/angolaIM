@@ -56,7 +56,7 @@ public class RouteController implements RouteApi {
     private ServerCache serverCache;
 
     @ApiOperation("客户端下线")
-    @RequestMapping(value = "offLine", method = RequestMethod.POST)
+    @RequestMapping(value = "/offLine", method = RequestMethod.POST)
     @ResponseBody
     @Override
     public BaseResponse<NULLBody> offLine(@RequestBody ChatReqVo groupReqVO) throws Exception {
@@ -81,7 +81,7 @@ public class RouteController implements RouteApi {
      * 注册账号
      */
     @ApiOperation("注册账号")
-    @RequestMapping(value = "registerAccount", method = RequestMethod.POST)
+    @RequestMapping(value = "/registerAccount", method = RequestMethod.POST)
     @ResponseBody
     @Override
     public BaseResponse<RegisterInfoResVo> registerAccount(@RequestBody RegisterInfoReqVo registerInfoReqVo) throws Exception{
@@ -105,7 +105,7 @@ public class RouteController implements RouteApi {
      * @return
      */
     @ApiOperation("登录并获取服务器")
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     @Override
     public BaseResponse<AIMServerResVo> login(@RequestBody LoginReqVo loginReqVo) throws Exception{
@@ -143,7 +143,7 @@ public class RouteController implements RouteApi {
     }
 
     @ApiOperation("私聊 API")
-    @RequestMapping(value = "simpleRoute", method = RequestMethod.POST)
+    @RequestMapping(value = "/simpleRoute", method = RequestMethod.POST)
     @ResponseBody
     @Override
     public BaseResponse<NULLBody> simpleRoute(@RequestBody SimpleChatReqVo chatReqVo)throws Exception{
@@ -168,7 +168,7 @@ public class RouteController implements RouteApi {
     }
 
     @ApiOperation("群聊 API")
-    @RequestMapping(value = "groupRoute", method = RequestMethod.POST)
+    @RequestMapping(value = "/groupRoute", method = RequestMethod.POST)
     @ResponseBody()
     @Override
     public Object groupRoute(@RequestBody ChatReqVo groupReqVo) throws Exception{
@@ -203,7 +203,7 @@ public class RouteController implements RouteApi {
      * @return
      */
     @ApiOperation("获取所有在线用户")
-    @RequestMapping(value = "onlineUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/onlineUser", method = RequestMethod.POST)
     @ResponseBody
     @Override
     public BaseResponse<Set<AIMUserInfo>> onlineUser() {

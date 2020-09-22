@@ -34,6 +34,7 @@ public class MsgHandler implements MsgHandle {
     @Autowired
     private AppConfiguration appConfiguration;
 
+    @Autowired
     private InnerCommandContext commandContext;
 
     private boolean aiModel = false;

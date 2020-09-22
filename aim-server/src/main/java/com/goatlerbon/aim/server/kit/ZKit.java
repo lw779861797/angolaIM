@@ -25,6 +25,7 @@ public class ZKit {
      */
     public void createRootNode(){
         boolean exists = zkClient.exists(appConfiguration.getZkRoot());
+        System.out.println(exists);
         if(exists){
             return ;
         }

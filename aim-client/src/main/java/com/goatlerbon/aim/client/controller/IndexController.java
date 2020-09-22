@@ -32,7 +32,7 @@ public class IndexController {
      * @return
      */
     @ApiOperation("客户端发送消息，字符串")
-    @RequestMapping(value = "sendStringMsg", method = RequestMethod.POST)
+    @RequestMapping(value = "/sendStringMsg", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse<NULLBody> sendStringMsg(@RequestBody StringReqVo stringReqVo){
         BaseResponse<NULLBody> res = new BaseResponse();
@@ -54,7 +54,7 @@ public class IndexController {
      * @return
      */
     @ApiOperation("向服务端发消息 Google ProtoBuf")
-    @RequestMapping(value = "sendProtoBufMsg", method = RequestMethod.POST)
+    @RequestMapping(value = "/sendProtoBufMsg", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse<NULLBody> sendProtoBufMsg(@RequestBody GoogleProtocolVo googleProtocolVo){
         BaseResponse<NULLBody> res = new BaseResponse();
@@ -77,7 +77,7 @@ public class IndexController {
      * @return
      */
     @ApiOperation("群发消息")
-    @RequestMapping(value = "sendGroupMsg",method = RequestMethod.POST)
+    @RequestMapping(value = "/sendGroupMsg",method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse sendGroupMsg(@RequestBody SendMsgReqVo sendMsgReqVo) throws Exception {
         BaseResponse<NULLBody> res = new BaseResponse();

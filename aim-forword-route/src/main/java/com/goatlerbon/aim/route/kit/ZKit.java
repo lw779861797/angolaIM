@@ -26,6 +26,7 @@ public class ZKit {
      * @param path
      */
     public void subscribeEvent(String path) {
+        System.out.println(path);
         //监听子节点是否发生变化
         zkClient.subscribeChildChanges(path, new IZkChildListener() {
             @Override

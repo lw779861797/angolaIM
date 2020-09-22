@@ -6,10 +6,12 @@ import com.goatlerbon.aim.client.service.MsgHandle;
 import com.goatlerbon.aim.common.data.construct.RingBufferWheel;
 import com.vdurmont.emoji.EmojiParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 延时指令消息处理
  */
+@Service
 public class DelayMsgCommand implements InnerCommand {
 
     @Autowired

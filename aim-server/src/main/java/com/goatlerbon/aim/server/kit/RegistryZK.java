@@ -25,8 +25,8 @@ public class RegistryZK implements Runnable {
         this.ip = addr;
         this.aimServerPort = aimServerPort;
         this.httpPort = port ;
-        zKit = SpringBeanFactory.getBean(ZKit.class) ;
-        appConfiguration = SpringBeanFactory.getBean(AppConfiguration.class) ;
+        this.zKit = SpringBeanFactory.getBean(ZKit.class) ;
+        this.appConfiguration = SpringBeanFactory.getBean(AppConfiguration.class) ;
     }
 
     @Override

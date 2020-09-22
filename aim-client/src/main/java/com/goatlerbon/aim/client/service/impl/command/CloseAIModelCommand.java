@@ -6,10 +6,12 @@ import com.goatlerbon.aim.client.service.MsgHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 关闭AI模式 指令处理
  */
+@Service
 public class CloseAIModelCommand implements InnerCommand {
     private final static Logger LOGGER = LoggerFactory.getLogger(CloseAIModelCommand.class);
 
