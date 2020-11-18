@@ -181,7 +181,7 @@ java -jar aim-client-1.0-SNAPSHOT.jar --server.port=8084 --aim.user.id=上方返
 
 使用命令 `:q 关键字` 即可查询与个人相关的聊天记录。
 
-> 客户端聊天记录默认存放在 `/opt/logs/cim/`，所以需要这个目录的写入权限。也可在启动命令中加入 `--aim.msg.logger.path = /自定义` 参数自定义目录。
+> 客户端聊天记录默认存放在 `/opt/logs/aim/`，所以需要这个目录的写入权限。也可在启动命令中加入 `--aim.msg.logger.path = /自定义` 参数自定义目录。
 
 
 
