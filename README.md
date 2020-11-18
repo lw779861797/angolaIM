@@ -25,7 +25,6 @@
 
 - `IM` 即时通讯系统。
 - 适用于 `APP` 的消息推送中间件。
-- `IOT` 海量连接场景中的消息透传中间件。
 
 
 ## TODO LIST
@@ -91,7 +90,7 @@ cd aim
 mvn -Dmaven.test.skip=true clean package
 ```
 
-### 部署 IM-server(cim-server)
+### 部署 IM-server(aim-server)
 
 ```shell
 cp /aim/aim-server/target/aim-server-1.0-SNAPSHOT.jar /work/server/
